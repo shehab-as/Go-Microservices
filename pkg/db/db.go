@@ -6,7 +6,12 @@ import (
 )
 
 func ConnectDB() *sql.DB {
-	db, err := sql.Open("mysql", "username:password@/dbname")
+	dbDriver := "mysql"
+	dbUser := "root"
+	dbPass := "password123"
+	dbName := "todo"
+	dbURI := "(127.0.0.1:3306)"
+	db, err := sql.Open(dbDriver, dbUser+":"+dbPass+"@tcp"+dbURI+"/"+dbName)
 	if err != nil {
 		panic(err.Error())
 	}

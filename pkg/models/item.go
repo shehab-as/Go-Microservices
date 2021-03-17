@@ -16,6 +16,6 @@ type ItemRepository interface {
 	GetItemById(ID int) (*Item, error)
 	GetAllItems() (*ItemList, error)
 	SaveItem(*Item) (bool, error)
-	DeleteItem(*Item) (bool, error)
+	DeleteItem(ID int) (bool, error)
 	UpdateItem(*Item) (bool, error)
 }

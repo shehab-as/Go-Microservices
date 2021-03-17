@@ -14,6 +14,7 @@ import (
 func main() {
 
 	db := db.ConnectDB()
+	defer db.Close()
 	itemRepo := repositories.NewItemRepo(db)
 	itemService := services.NewItemService(itemRepo)
 	itemHandler := controllers.NewItemHandler(itemService)

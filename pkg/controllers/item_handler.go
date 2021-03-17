@@ -21,8 +21,6 @@ func NewItemHandler(itemService *services.ItemService) *ItemHandler {
 }
 
 func (h *ItemHandler) GetItem(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("ENDPOINT - GET")
-
 	var item *models.Item
 	var err error
 	query := r.URL.Query()
@@ -36,8 +34,6 @@ func (h *ItemHandler) GetItem(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *ItemHandler) GetItemList(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("ENDPOINT - GET")
-
 	var itemList *models.ItemList
 	var err error 
 	itemList, err = h.itemService.GetAllItems()
@@ -48,8 +44,6 @@ func (h *ItemHandler) GetItemList(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *ItemHandler) CreateItem(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("ENDPOINT - POST")
-
 	var itemToCreate models.Item
 	var err error 
 	reqBody, _ := ioutil.ReadAll(r.Body)
@@ -65,25 +59,20 @@ func (h *ItemHandler) CreateItem(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *ItemHandler) DeleteItem(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("ENDPOINT - DELETE")
-
-	var itemToDelete models.Item
 	var err error 
-	reqBody, _ := ioutil.ReadAll(r.Body)
-	json.Unmarshal(reqBody, &itemToDelete)
-	deleted, err := h.itemService.DeleteItem(&itemToDelete)
+	query := r.URL.Query()
+	idStr := query.Get("id")
+	idInt, err := strconv.Atoi(idStr)
+	deleted, err := h.itemService.DeleteItem(idInt)
 	if err != nil {
 		fmt.Printf("ERROR - %s", err)
 	}
 	if deleted == true {
 		fmt.Println("Deleted Item Successfully")
 	}
-	json.NewEncoder(w).Encode(itemToDelete)
 }
 
 func (h *ItemHandler) UpdateItem(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("ENDPOINT - PUT")
-
 	var itemToUpdate models.Item
 	var err error 
 	reqBody, _ := ioutil.ReadAll(r.Body)
