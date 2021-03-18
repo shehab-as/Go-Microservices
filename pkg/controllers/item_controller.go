@@ -10,17 +10,17 @@ import (
 	"Go-Microservices/pkg/services"
 )
 
-type ItemHandler struct {
+type ItemController struct {
 	itemService	*services.ItemService
 }
 
-func NewItemHandler(itemService *services.ItemService) *ItemHandler {
-	return &ItemHandler {
+func NewItemController(itemService *services.ItemService) *ItemController {
+	return &ItemController {
 		itemService: itemService,
 	}
 }
 
-func (h *ItemHandler) GetItem(w http.ResponseWriter, r *http.Request) {
+func (h *ItemController) GetItem(w http.ResponseWriter, r *http.Request) {
 	var item *models.Item
 	var err error
 	query := r.URL.Query()
@@ -33,7 +33,7 @@ func (h *ItemHandler) GetItem(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(item)
 }
 
-func (h *ItemHandler) GetItemList(w http.ResponseWriter, r *http.Request) {
+func (h *ItemController) GetItemList(w http.ResponseWriter, r *http.Request) {
 	var itemList *models.ItemList
 	var err error 
 	itemList, err = h.itemService.GetAllItems()
@@ -43,7 +43,7 @@ func (h *ItemHandler) GetItemList(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(itemList)
 }
 
-func (h *ItemHandler) CreateItem(w http.ResponseWriter, r *http.Request) {
+func (h *ItemController) CreateItem(w http.ResponseWriter, r *http.Request) {
 	var itemToCreate models.Item
 	var err error 
 	reqBody, _ := ioutil.ReadAll(r.Body)
@@ -58,7 +58,7 @@ func (h *ItemHandler) CreateItem(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(itemToCreate)
 }
 
-func (h *ItemHandler) DeleteItem(w http.ResponseWriter, r *http.Request) {
+func (h *ItemController) DeleteItem(w http.ResponseWriter, r *http.Request) {
 	var err error 
 	query := r.URL.Query()
 	idStr := query.Get("id")
@@ -72,7 +72,7 @@ func (h *ItemHandler) DeleteItem(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (h *ItemHandler) UpdateItem(w http.ResponseWriter, r *http.Request) {
+func (h *ItemController) UpdateItem(w http.ResponseWriter, r *http.Request) {
 	var itemToUpdate models.Item
 	var err error 
 	reqBody, _ := ioutil.ReadAll(r.Body)
